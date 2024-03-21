@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const KhachHangModel = new Schema({
     tenKhachHang : {type: String, require: true},
-    dienThoai : {type: String, require: true, maxlength: 10},
+    dienThoai : {type: String, require: true, maxlength: 10, unique: true},
     diaChi: {type: String, require : true}
 })
 
