@@ -5,12 +5,13 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
+var congviecRouter = require('./routes/congviec');
 
 var app = express();
 var database = require('./config/db');
 
 const PORT = 3000;
-const HOST = "192.168.100.3";  // dia chi wifi
+const HOST = "192.168.187.142";  // dia chi wifi
 
 app.listen(PORT, HOST, () => {
   console.log(`Server is running on http://${HOST}:${PORT}`);
@@ -27,6 +28,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/',congviecRouter)
 
 database.connect();
 // catch 404 and forward to error handler
