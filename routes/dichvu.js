@@ -3,10 +3,25 @@ const router = express.Router();
 
 const DichVuModel = require('../model/dichvus');
 
-// get list dich vu
+// get list dich vu và tìm kiếm dịch vụ theo id
 router.get('/', async (req, res) => {
-    const dichVus = await DichVuModel.find();
-    res.send(dichVus);
+    const {tenDichVu} = req.query;
+    if(!tenDichVu){
+        const dichVus = await DichVuModel.find();
+        res.send(dichVus);
+    }else{
+        try {
+            const dichvu = await DichVuModel.find({ tenDichVu: tenDichVu });
+            if (!dichvu) {
+                return res.status(404).send("Không tìm thấy dịch vụ");
+            }
+            res.send(dichvu);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send("Lỗi server");
+        }
+    }
+    
 });
 
 // delete dich vu

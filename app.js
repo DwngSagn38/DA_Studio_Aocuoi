@@ -7,6 +7,9 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var loginRouter = require('./routes/login');
 var dichvuRouter = require('./routes/dichvu');
+var congviecRouter = require('./routes/congviec');
+var thongkeRouter = require('./routes/thongke');
+var khachhangRouter = require('./routes/khachhang');
 
 var app = express();
 var database = require('./config/db');
@@ -31,6 +34,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/dichvus', dichvuRouter);
+app.use('/congviecs',congviecRouter)
+app.use('/thongke',thongkeRouter)
+app.use('/khachhangs',khachhangRouter)
 
 database.connect();
 // catch 404 and forward to error handler

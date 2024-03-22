@@ -6,6 +6,6 @@ const CongViecs = new Schema({
     toDate: { type: Date, required: true },
     trangThai: { type: Number, required: true },
     moTa: { type: String },
-    id_NhanVien: { type: Scheme.Types.ObjectId, ref: 'nhanvien' }
+    id_NhanVien: { type:Schema.Types.ObjectId, ref: 'nhanvien' }
 })
 module.exports = mongoose.model('congviec', CongViecs);
