@@ -8,5 +8,4 @@ router.get('/', async (req, res) => {
     res.send(nhanviens)
 });
 
-
 module.exports = router;

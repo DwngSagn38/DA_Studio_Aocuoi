@@ -8,5 +8,4 @@ router.get('/', async (req, res) => {
     res.send(khachhangs)
 });
 
-
 module.exports = router;
