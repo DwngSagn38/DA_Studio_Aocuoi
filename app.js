@@ -10,9 +10,11 @@ var dichvuRouter = require('./routes/dichvu');
 var congviecRouter = require('./routes/congviec');
 var thongkeRouter = require('./routes/thongke');
 var khachhangRouter = require('./routes/khachhang');
+var nhanvienRouter = require('./routes/nhanvien');
 
 var app = express();
 var database = require('./config/db');
+const nhanviens = require('./model/nhanviens');
 
 const PORT = 3000;
 const HOST = "192.168.100.3";  // dia chi wifi
@@ -37,6 +39,7 @@ app.use('/dichvus', dichvuRouter);
 app.use('/congviecs',congviecRouter)
 app.use('/thongke',thongkeRouter)
 app.use('/khachhangs',khachhangRouter)
+app.use('/nhanviens',nhanvienRouter)
 
 database.connect();
 // catch 404 and forward to error handler
