@@ -9,6 +9,7 @@ const NhanVienModel = new Schema({
     address : {type: String, require: true},
     phone : {type: String, require: true, unique: true, maxlength : true},
     ghiChu : {type: String},
+    trangThai : {type: Boolean}
     
 })
 

@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const KhachhangModel = require('../model/khachhangs');
+const NhanVienModel = require('../model/nhanviens');
 
 router.get('/', async (req, res) => {
-    const khachhangs = await KhachhangModel.find();
-    res.send(khachhangs)
+    const nhanviens = await NhanVienModel.find();
+    res.send(nhanviens)
 });
 
 module.exports = router;
