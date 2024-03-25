@@ -7,7 +7,7 @@ const NhanVienModel = new Schema({
     password : {type: String, require: true},
     email : {type: String, require: true, unique : true},
     address : {type: String, require: true},
-    phone : {type: String, require: true, unique: true, maxlength : true},
+    phone : {type: String, require: true, unique: true, maxlength : 10},
     ghiChu : {type: String},
     trangThai: {type: Boolean}
 })

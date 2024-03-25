@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
 
-
-// vanh = mongodb+srv://anhvtvph42837:<password>@cluster0.qdt1hvt.mongodb.net/
-const uri = "mongodb+srv://anhvtvph42837:crnbDZH96wcxtP08@cluster0.qdt1hvt.mongodb.net/studio_aocuoi"
+// Vanh
+// const uri = "mongodb+srv://anhvtvph42837:crnbDZH96wcxtP08@cluster0.qdt1hvt.mongodb.net/studio_aocuoi" 
+// Sang 
+const uri = "mongodb+srv://shallot38hk:iWouPPWcIk1WFGs3@cluster0.4vigwt9.mongodb.net/studio_aocuoi" 
 
 
 const connect = async () => {
