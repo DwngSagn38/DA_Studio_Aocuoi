@@ -20,6 +20,7 @@ router.post('/post', async (req, res) => {
         phone: data.phone,
         ghiChu: data.ghiChu,
         trangThai: data.trangThai,
+        avatar: data.avatar
     })
 
     const result = await nhanvien.save();

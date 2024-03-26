@@ -6,7 +6,8 @@ const DichVuModel = new Schema({
     trangThai : {type: Boolean, require: true},
     moTa: {type: String, require: true},
     giaTien: {type: Number, require: true},
-    type: {type: Boolean, require: true}
+    type: {type: Boolean, require: true},
+    hinhAnh: {type: String, require: true}
 })
 
 module.exports = mongoose.model('dichvu',DichVuModel);

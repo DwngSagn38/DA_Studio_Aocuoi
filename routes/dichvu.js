@@ -50,7 +50,8 @@ router.post('/post', async (req, res) => {
         tenDichVu: data.tenDichVu,
         trangThai: data.trangThai,
         moTa: data.moTa,
-        giaTien: data.giaTien
+        giaTien: data.giaTien,
+        hinhAnh : dât.hinhAnh
     })
 
     const result = await dichvu.save();

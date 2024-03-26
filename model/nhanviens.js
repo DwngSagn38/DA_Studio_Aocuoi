@@ -9,7 +9,9 @@ const NhanVienModel = new Schema({
     address : {type: String, require: true},
     phone : {type: String, require: true, unique: true, maxlength : 10},
     ghiChu : {type: String},
-    trangThai: {type: Boolean}
+    role : {type: Number, default: 0, require: true},
+    trangThai: {type: Boolean},
+    avatar : {type: String}
 })
 
 module.exports = mongoose.model("nhanvien",NhanVienModel);
