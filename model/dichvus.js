@@ -8,6 +8,8 @@ const DichVuModel = new Schema({
     giaTien: {type: Number, require: true},
     type: {type: Boolean, require: true},
     hinhAnh: {type: String, require: true}
+},{
+    timestamps:true
 })
 
 module.exports = mongoose.model('dichvu',DichVuModel);

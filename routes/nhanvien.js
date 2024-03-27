@@ -19,8 +19,9 @@ router.post('/post', async (req, res) => {
         address: data.address,
         phone: data.phone,
         ghiChu: data.ghiChu,
-        trangThai: data.trangThai,
-        avatar: data.avatar
+        trangThai: true,
+        avatar: data.avatar,
+        role: 0
     })
 
     const result = await nhanvien.save();
