@@ -23,9 +23,14 @@ router.post('/post', async (req, res) => {
         avatar: data.avatar,
         role: 0
     })
-
+    const check = await NhanVienModel.findOne({username:data.username})
+    if(check){
+        return res
+        .status(404)
+        .json({ message: "Tên đăng nhập tồn tại" });
+    }
     const result = await nhanvien.save();
-
+    
     if (result) {
         res.json({
             status: 200,
