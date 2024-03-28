@@ -18,7 +18,7 @@ var app = express();
 var database = require('./config/db');
 
 const PORT = 3000;
-const HOST = "192.168.100.3";  // dia chi wifi
+const HOST = "192.168.1.102";  // dia chi wifi
 
 app.listen(PORT,HOST, () => {
   console.log(`Server is running on http://${HOST}:${PORT}`);
