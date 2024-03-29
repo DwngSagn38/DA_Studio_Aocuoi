@@ -36,7 +36,8 @@ router.post('/post', async (req, res) => {
         trangThai: data.trangThai,
         moTa: data.moTa,
         giaTien: data.giaTien,
-        hinhAnh: data.hinhAnh
+        hinhAnh: data.hinhAnh,
+        type: data.type,
     })
 
     const result = await dichvu.save();
@@ -44,13 +45,13 @@ router.post('/post', async (req, res) => {
     if (result) {
         res.json({
             status: 200,
-            message: "Add success",
+            msg: "Add success",
             data: result
         })
     } else {
         res.json({
             status: 400,
-            message: "Add fail",
+            msg: "Add fail",
             data: []
         })
     }
@@ -84,7 +85,7 @@ router.get('/search', async (req, res) => {
     try {
         const key = req.query.key;
         // Tìm dịch vụ có tên phù hợp với 'key' được cung cấp bằng cách sử dụng regex không phân biệt chữ hoa/thường
-        const data = await DichVuModel.find({ tenDichVu: { '$regex': key, "$options": "i" } }).sort({createdAt:-1})
+        const data = await DichVuModel.find({ tenDichVu: { '$regex': key, "$options": "i" } }).sort({ createdAt: -1 })
         if (data.length > 0) {
             res.json({
                 status: 200,

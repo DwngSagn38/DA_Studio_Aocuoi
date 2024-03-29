@@ -58,4 +58,36 @@ router.get('/doanhthu-in-date', async (req, res) => {
     })
 })
 
+router.get('/doanhthu-in-month', async (req, res) => {
+    // Lấy năm hiện tại hoặc năm được chỉ định trong yêu cầu
+    const year = req.query.year || new Date().getFullYear();
+
+    // Tạo mảng các promise để lấy doanh thu từng tháng trong năm
+    const promises = [];
+    for (let month = 0; month < 12; month++) {
+        const firstDayOfMonth = new Date(year, month, 1);
+        const lastDayOfMonth = new Date(year, month + 1, 0);
+
+        const ngayMua = {
+            ngayMua: { $gte: firstDayOfMonth, $lte: lastDayOfMonth }
+        };
+
+        const promise = HoadonModel.aggregate([
+            { $match: ngayMua },
+            { $group: { _id: null, totalRevenue: { $sum: "$tongTien" } } } // Sử dụng $group để tổng hợp tổng doanh thu của các hóa đơn trong tháng
+        ]).exec();
+
+        promises.push(promise);
+    }
+
+    // Chờ tất cả các promise hoàn thành
+    const monthlyRevenues = await Promise.all(promises);
+
+    res.json({
+        status: 200,
+        message: `Tổng doanh thu trong năm ${year} là`,
+        data: monthlyRevenues
+    });
+});
+
 module.exports = router;
