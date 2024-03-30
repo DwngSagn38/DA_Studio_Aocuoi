@@ -5,23 +5,8 @@ const DichVuModel = require('../model/dichvus');
 
 // get list dich vu và tìm kiếm dịch vụ theo id
 router.get('/', async (req, res) => {
-    const { tenDichVu } = req.query;
-    if (!tenDichVu) {
-        const dichVus = await DichVuModel.find();
-        res.send(dichVus);
-    } else {
-        try {
-            const dichvu = await DichVuModel.find({ tenDichVu: tenDichVu }).sort({createdAt: -1});
-            if (!dichvu) {
-                return res.status(404).send("Không tìm thấy dịch vụ");
-            }
-            res.send(dichvu);
-        } catch (error) {
-            console.error(error);
-            res.status(500).send("Lỗi server");
-        }
-    }
-
+    const dichVus = await DichVuModel.find();
+    res.send(dichVus);
 });
 
 // delete dich vu
@@ -51,7 +36,8 @@ router.post('/post', async (req, res) => {
         trangThai: data.trangThai,
         moTa: data.moTa,
         giaTien: data.giaTien,
-        hinhAnh: data.hinhAnh
+        hinhAnh: data.hinhAnh,
+        type: data.type,
     })
 
     const result = await dichvu.save();
@@ -59,13 +45,13 @@ router.post('/post', async (req, res) => {
     if (result) {
         res.json({
             status: 200,
-            message: "Add success",
+            msg: "Add success",
             data: result
         })
     } else {
         res.json({
             status: 400,
-            message: "Add fail",
+            msg: "Add fail",
             data: []
         })
     }
@@ -99,7 +85,7 @@ router.get('/search', async (req, res) => {
     try {
         const key = req.query.key;
         // Tìm dịch vụ có tên phù hợp với 'key' được cung cấp bằng cách sử dụng regex không phân biệt chữ hoa/thường
-        const data = await DichVuModel.find({ tenDichVu: { '$regex': key, "$options": "i" } })
+        const data = await DichVuModel.find({ tenDichVu: { '$regex': key, "$options": "i" } }).sort({ createdAt: -1 })
         if (data.length > 0) {
             res.json({
                 status: 200,
@@ -118,10 +104,9 @@ router.get('/search', async (req, res) => {
         res.json({
             status: 404,
             mess: "Thất bại",
-            data: data
+            data: []
         })
         console.log(error);
-
     }
 })
 
