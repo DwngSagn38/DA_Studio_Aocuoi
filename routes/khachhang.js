@@ -20,13 +20,13 @@ router.put('/put/:id', async (req, res) => {
     if (result) {
         res.json({
             status: 200,
-            message: "Update success",
+            msg: "Update success",
             data: result
         })
     } else {
         res.json({
             status: 400,
-            message: "Update fail",
+            msg: "Update fail",
             data: []
         })
     }
@@ -39,13 +39,13 @@ router.delete('/delete/:id', async (req, res) => {
     if (result) {
         res.json({
             "status": "200",
-            "messenger": "Delete success",
+            "msg": "Delete success",
             "data": result
         })
     } else {
         res.json({
             "status": "400",
-            "messenger": "Delete fail",
+            "msg": "Delete fail",
             "data": []
         })
     }
@@ -54,7 +54,7 @@ router.delete('/delete/:id', async (req, res) => {
 
 // post - add khach hang
 router.post('/post', async (req, res) => {
-    const data = req.body;
+    const data = await req.body;
     const khachhang = new KhachhangModel({
         tenKhachHang: data.tenKhachHang,
         dienThoai: data.dienThoai,
@@ -66,13 +66,13 @@ router.post('/post', async (req, res) => {
     if (result) {
         res.json({
             status: 200,
-            message: "Add success",
+            msg: "Add success",
             data: result
         })
     } else {
         res.json({
             status: 400,
-            message: "Add fail",
+            msg: "Add fail",
             data: []
         })
     }
