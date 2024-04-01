@@ -18,7 +18,7 @@ router.post('/add', async (req, res) => {
             tenCongViec: data.tenCongViec,
             fromDate: data.fromDate,
             toDate: data.toDate,
-            trangThai: data.trangThai,
+            trangThai: 0,
             moTa: data.moTa,
             id_NhanVien: data.id_NhanVien
         }); // tao mot doi tuong moi
@@ -28,14 +28,14 @@ router.post('/add', async (req, res) => {
             // neu them thanh cong result !null thi tra ve du lieu
             res.json({
                 "status": 200,
-                "messenger": "Them thanh cong",
+                "msg": "Them thanh cong",
                 "data": result
             })
         } else {
             // neu them khong thanh cong result == null thi tra ve du lieu rong []
             res.json({
                 "status": 400,
-                "messenger": "Them khong thanh cong",
+                "msg": "Them khong thanh cong",
                 "data": []
             })
         }
@@ -67,14 +67,14 @@ router.post('/add', async (req, res) => {
         // neu them thanh cong result !null thi tra ve du lieu
         res.json({
             "status": 200,
-            "messenger": "Cap nhat thanh cong",
+            "msg": "Cap nhat thanh cong",
             "data": result
         })
     } else {
         // neu them khong thanh cong result == null thi tra ve du lieu rong []
         res.json({
             "status": 400,
-            "messenger": "Cap nhat khong thanh cong",
+            "msg": "Cap nhat khong thanh cong",
             "data": []
         })
     }
@@ -91,13 +91,13 @@ router.delete('/delete/:id', async (req, res) => {
     if (result) {
         res.json({
             "status": "200",
-            "messenger": "Delete success",
+            "msg": "Delete success",
             "data": result
         })
     } else {
         res.json({
             "status": "400",
-            "messenger": "Delete fail",
+            "msg": "Delete fail",
             "data": []
         })
     }
