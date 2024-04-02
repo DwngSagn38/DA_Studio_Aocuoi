@@ -8,24 +8,65 @@ router.get('/', (req, res) => {
     res.send('Thống kê doanh thu')
 });
 
-router.get('/doanhthu', async (req, res) => {
+router.get('/doanhthu-thongso', async (req, res) => {
     const hoadons = await HoadonModel.find();
+    const hondonoks = await HoadonModel.find({ trangThai: 1 });
+    const hondonfails = await HoadonModel.find({ trangThai: -1 });
+    const hondonloads = await HoadonModel.find({ trangThai: 0 });
+    const uniqueCustomers = {}; // Đối tượng để lưu trữ thông tin của khách hàng
 
     if (hoadons.length == 0) {
         return res.send('Không có hóa đơn nào');
     }
 
     let Tongtien = 0;
-    for (let hoadon of hoadons) {
+    let TongSoKhachHang = 0;
+    let TongHoaDon = hoadons.length;
+    let TongHoaDonOK = hondonoks.length;
+    let TongHoaDonFail = hondonfails.length;
+    let TongHoaDonLoad = hondonloads.length;
+
+    for (let hoadon of hondonoks) {
         Tongtien += hoadon.tongTien;
     }
+
+    for (let hoadon of hoadons) {
+        // Kiểm tra xem khách hàng đã tồn tại trong danh sách chưa
+        if (!uniqueCustomers[hoadon.id_KhachHang]) {
+            uniqueCustomers[hoadon.id_KhachHang] = true;
+            TongSoKhachHang++; // Tăng số lượng khách hàng nếu chưa tồn tại
+        }
+    }
+
+    // Thống kê theo tháng
+    const hoadonsByMonth = await HoadonModel.aggregate([
+        {
+            $group: {
+                _id: {
+                    year: { $year: "$ngayMua" }, // Nhóm theo năm của ngày mua
+                    month: { $month: "$ngayMua" } // Nhóm theo tháng của ngày mua
+                },
+                TongTien: { $sum: "$tongTien" }, // Tổng số tiền
+                TongSoKhachHang: { $addToSet: "$id_KhachHang" }, // Sử dụng $addToSet để đếm số lượng khách hàng duy nhất
+                TongHoaDon: { $sum: 1 } // Đếm tổng số hóa đơn
+            }
+        }
+    ]);
 
     res.json({
         status: 200,
         masenge: "Đây là doanh thu",
-        data: Tongtien
-    })
-})
+        data: {
+            Tongtien: Tongtien,
+            TongSoKhachHang: TongSoKhachHang,
+            TongHoaDon: TongHoaDon,
+            TongHoaDonOK: TongHoaDonOK,
+            TongHoaDonFail: TongHoaDonFail,
+            TongHoaDonLoad: TongHoaDonLoad,
+            ThongKeByMonth : hoadonsByMonth
+        }
+    });
+});
 
 router.get('/doanhthu-in-date', async (req, res) => {
     const { fromDate, toDate } = req.query;
@@ -69,7 +110,8 @@ router.get('/doanhthu-in-month', async (req, res) => {
         const lastDayOfMonth = new Date(year, month + 1, 0);
 
         const ngayMua = {
-            ngayMua: { $gte: firstDayOfMonth, $lte: lastDayOfMonth }
+            ngayMua: { $gte: firstDayOfMonth, $lte: lastDayOfMonth },
+            trangThai: 1
         };
 
         const promise = HoadonModel.aggregate([

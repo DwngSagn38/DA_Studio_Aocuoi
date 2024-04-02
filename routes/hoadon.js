@@ -4,8 +4,14 @@ const router = express.Router();
 const HoadonModel = require('../model/hoadons');
 
 router.get('/', async (req, res) => {
-    const hoadons = await HoadonModel.find();
-    res.send(hoadons)
+    const { trangThai } = req.query;
+    if (trangThai != null) {
+        const hoadons = await HoadonModel.find({ trangThai: trangThai });
+        res.send(hoadons);
+    } else {
+        const hoadons = await HoadonModel.find();
+        res.send(hoadons)
+    }
 });
 
 // post - thêm hóa đơn
