@@ -107,13 +107,13 @@ router.put('/put/:id', async (req, res) => {
     if (result) {
         res.json({
             status: 200,
-            message: "Update success",
+            msg: "Update success",
             data: result
         })
     } else {
         res.json({
             status: 400,
-            message: "Update fail",
+            msg: "Update fail",
             data: []
         })
     }
