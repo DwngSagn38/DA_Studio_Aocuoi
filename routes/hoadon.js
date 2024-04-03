@@ -16,15 +16,10 @@ router.get('/', async (req, res) => {
 
 // post - thêm hóa đơn
 router.post('/post', async (req, res) => {
-    const data = req.body;
+    try {
+        const data = req.body;
     const hoadon = new HoadonModel({
-        id_NhanVien: data.id_NhanVien,
-        id_KhachHang: data.id_KhachHang,
-        ngayMua: data.ngayMua,
-        tongTien: data.tongTien,
-        trangThai: data.trangThai,
-        ngayHoanThanh: data.ngayHoanThanh,
-        ngayHuy: data.ngayHuy,
+        id_NhanVien : data.id_NhanVien
     })
 
     const result = await hoadon.save();
@@ -42,11 +37,33 @@ router.post('/post', async (req, res) => {
             data: []
         })
     }
+    } catch (error) {
+     console.log(error);   
+    }
+})
+
+// delete ct
+router.delete('/delete/:id', async (req, res) => {
+    const { id } = req.params;
+    const result = await HoadonModel.findOneAndDelete(id);
+    if (result) {
+        res.json({
+            "status": "200",
+            "msg": "Delete success",
+            "data": result
+        })
+    } else {
+        res.json({
+            "status": "400",
+            "msg": "Delete fail",
+            "data": []
+        })
+    }
 })
 
 
 // update - update-trangthai hóa đơn
-router.put('/update-trangthai/:id', async (req, res) => {
+router.put('/update/:id', async (req, res) => {
     const { id } = req.params;
     const data = req.body;
 
@@ -56,13 +73,13 @@ router.put('/update-trangthai/:id', async (req, res) => {
     if (result) {
         res.json({
             status: 200,
-            message: "Update success",
+            msg: "Update success",
             data: result
         })
     } else {
         res.json({
             status: 400,
-            message: "Update fail",
+            msg: "Update fail",
             data: []
         })
     }

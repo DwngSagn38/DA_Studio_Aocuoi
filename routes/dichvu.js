@@ -16,13 +16,13 @@ router.delete('/delete/:id', async (req, res) => {
     if (result) {
         res.json({
             "status": "200",
-            "messenger": "Delete success",
+            "msg": "Delete success",
             "data": result
         })
     } else {
         res.json({
             "status": "400",
-            "messenger": "Delete fail",
+            "msg": "Delete fail",
             "data": []
         })
     }
@@ -68,13 +68,13 @@ router.put('/put/:id', async (req, res) => {
     if (result) {
         res.json({
             status: 200,
-            message: "Update success",
+            msg: "Update success",
             data: result
         })
     } else {
         res.json({
             status: 400,
-            message: "Update fail",
+            msg: "Update fail",
             data: []
         })
     }
@@ -89,21 +89,21 @@ router.get('/search', async (req, res) => {
         if (data.length > 0) {
             res.json({
                 status: 200,
-                mess: "Thành công",
+                msg: "Thành công",
                 data: data
             })
         }
         else {
             res.json({
                 status: 400,
-                mess: "Thất bại",
+                msg: "Thất bại",
                 data: []
             })
         }
     } catch (error) {
         res.json({
             status: 404,
-            mess: "Thất bại",
+            msg: "Thất bại",
             data: []
         })
         console.log(error);

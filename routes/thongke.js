@@ -43,8 +43,8 @@ router.get('/doanhthu-thongso', async (req, res) => {
         {
             $group: {
                 _id: {
-                    year: { $year: "$ngayMua" }, // Nhóm theo năm của ngày mua
-                    month: { $month: "$ngayMua" } // Nhóm theo tháng của ngày mua
+                    year: { $year: "$createdAt" }, // Nhóm theo năm của ngày mua
+                    month: { $month: "$createdAt" } // Nhóm theo tháng của ngày mua
                 },
                 TongTien: { $sum: "$tongTien" }, // Tổng số tiền
                 TongSoKhachHang: { $addToSet: "$id_KhachHang" }, // Sử dụng $addToSet để đếm số lượng khách hàng duy nhất
@@ -74,11 +74,11 @@ router.get('/doanhthu-in-date', async (req, res) => {
     const startDate = new Date(fromDate);
     const endDate = new Date(toDate);
 
-    const ngayMua = { ngayMua: { $gte: startDate, $lte: endDate } };
+    const createdAt = { createdAt: { $gte: startDate, $lte: endDate } };
     // $gte : lon hon hoac bang, $ge : lon hon
     // $lte : nho hon hoac bang, $le : nho hon
 
-    const hoadons = await HoadonModel.find(ngayMua, "_id Tongtien")
+    const hoadons = await HoadonModel.find(createdAt, "_id Tongtien")
         .populate('id_NhanVien id_KhachHang')
         .sort({ quantity: -1 }) // giam dan : -1 , tang dan : 1 
         .skip(0) // bo qua so luong row
@@ -109,13 +109,13 @@ router.get('/doanhthu-in-month', async (req, res) => {
         const firstDayOfMonth = new Date(year, month, 1);
         const lastDayOfMonth = new Date(year, month + 1, 0);
 
-        const ngayMua = {
-            ngayMua: { $gte: firstDayOfMonth, $lte: lastDayOfMonth },
+        const createdAt = {
+            createdAt: { $gte: firstDayOfMonth, $lte: lastDayOfMonth },
             trangThai: 1
         };
 
         const promise = HoadonModel.aggregate([
-            { $match: ngayMua },
+            { $match: createdAt },
             { $group: { _id: null, totalRevenue: { $sum: "$tongTien" } } } // Sử dụng $group để tổng hợp tổng doanh thu của các hóa đơn trong tháng
         ]).exec();
 
