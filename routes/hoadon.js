@@ -45,7 +45,7 @@ router.post('/post', async (req, res) => {
 // delete ct
 router.delete('/delete/:id', async (req, res) => {
     const { id } = req.params;
-    const result = await HoadonModel.findOneAndDelete(id);
+    const result = await HoadonModel.findByIdAndDelete(id);
     if (result) {
         res.json({
             "status": "200",
