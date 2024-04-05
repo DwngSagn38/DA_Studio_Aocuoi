@@ -5,7 +5,7 @@ const DichVuModel = require('../model/dichvus');
 
 // get list dich vu và tìm kiếm dịch vụ theo id
 router.get('/', async (req, res) => {
-    const dichVus = await DichVuModel.find();
+    const dichVus = await DichVuModel.find().sort({createdAt : -1});
     res.send(dichVus);
 });
 

@@ -18,46 +18,52 @@ router.get('/', async (req, res) => {
 router.post('/post', async (req, res) => {
     try {
         const data = req.body;
-    const hoadon = new HoadonModel({
-        id_NhanVien : data.id_NhanVien
-    })
-
-    const result = await hoadon.save();
-
-    if (result) {
-        res.json({
-            status: 200,
-            message: "Add success",
-            data: result
+        const hoadon = new HoadonModel({
+            id_NhanVien: data.id_NhanVien
         })
-    } else {
-        res.json({
-            status: 400,
-            message: "Add fail",
-            data: []
-        })
-    }
+
+        const result = await hoadon.save();
+
+        if (result) {
+            res.json({
+                status: 200,
+                message: "Add success",
+                data: result
+            })
+        } else {
+            res.json({
+                status: 400,
+                message: "Add fail",
+                data: []
+            })
+        }
     } catch (error) {
-     console.log(error);   
+        console.log(error);
     }
 })
 
 // delete ct
 router.delete('/delete/:id', async (req, res) => {
-    const { id } = req.params;
-    const result = await HoadonModel.findOneAndDelete(id);
-    if (result) {
-        res.json({
-            "status": "200",
-            "msg": "Delete success",
-            "data": result
-        })
-    } else {
-        res.json({
-            "status": "400",
-            "msg": "Delete fail",
-            "data": []
-        })
+    try {
+        const { id } = req.params;
+        if (id != null && id != undefined) {
+            const result = await HoadonModel.findByIdAndDelete(id);
+            if (result) {
+                res.json({
+                    "status": "200",
+                    "msg": "Delete success",
+                    "data": result
+                })
+            } else {
+                res.json({
+                    "status": "400",
+                    "msg": "Delete fail",
+                    "data": []
+                })
+            }
+        }
+    } catch (error) {
+        console.log(error)
     }
 })
 

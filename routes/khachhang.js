@@ -72,7 +72,7 @@ router.delete('/delete/:id', async (req, res) => {
 
 // post - add khach hang
 router.post('/post', async (req, res) => {
-    const data = req.body;
+    const data = await req.body;
     const khachhang = new KhachhangModel({
         tenKhachHang: data.tenKhachHang,
         dienThoai: data.dienThoai,
