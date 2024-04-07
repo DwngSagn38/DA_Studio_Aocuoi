@@ -31,7 +31,7 @@ router.post('/post', async (req, res) => {
             const hoadonchitiet = new HoadonChitietModel({
                 id_HoaDon: data.id_HoaDon,
                 id_DichVu: data.id_DichVu,
-                soLuong: data.soLuong,
+                soLuong: 0,
                 giaTien: data.giaTien,
                 ghiChu: "",
             })
@@ -67,7 +67,7 @@ router.delete('/delete/:id', async (req, res) => {
     if (result) {
         res.json({
             "status": "200",
-            "msg": "Delete success",
+            "msg": "Dịch vụ đã bị xóa khỏi hóa đơn",
             "data": result
         })
     } else {

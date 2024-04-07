@@ -6,10 +6,10 @@ const HoadonModel = require('../model/hoadons');
 router.get('/', async (req, res) => {
     const { trangThai } = req.query;
     if (trangThai != null) {
-        const hoadons = await HoadonModel.find({ trangThai: trangThai });
+        const hoadons = await HoadonModel.find({ trangThai: trangThai }).sort({createdAt: -1});
         res.send(hoadons);
     } else {
-        const hoadons = await HoadonModel.find();
+        const hoadons = await HoadonModel.find().sort({createdAt: -1});
         res.send(hoadons)
     }
 });
