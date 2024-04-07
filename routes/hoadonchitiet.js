@@ -5,9 +5,14 @@ const HoadonChitietModel = require('../model/hoadonchitiets');
 
 router.get('/', async (req, res) => {
     try {
-        const {id_HoaDon} = req.query;
-        const hoadonchitiets = await HoadonChitietModel.find({ id_HoaDon: id_HoaDon });
-        res.send(hoadonchitiets)
+        const { id_HoaDon } = req.query;
+        if (id_HoaDon != null && id_HoaDon != undefined) {
+            const hoadonchitiets = await HoadonChitietModel.find({ id_HoaDon: id_HoaDon });
+            res.send(hoadonchitiets)
+        } else {
+            const hoadonchitiets = await HoadonChitietModel.find();
+            res.send(hoadonchitiets)
+        }
     } catch (error) {
         console.log(error);
     }
@@ -19,7 +24,7 @@ router.post('/post', async (req, res) => {
         const data = req.body;
         const dichvu = data.id_DichVu;
         const id_Bill = data.id_HoaDon;
-        if(id_Bill == null || id_Bill == undefined){
+        if (id_Bill == null || id_Bill == undefined) {
             res.status(403).json({ msg: "Chưa tạo id hóa đơn" });
         }
         const ListHDCT = await HoadonChitietModel.find({ id_HoaDon: id_Bill });
@@ -67,7 +72,7 @@ router.delete('/delete/:id', async (req, res) => {
     if (result) {
         res.json({
             "status": "200",
-            "msg": "Delete success",
+            "msg": "Đã xóa dịch vụ khỏi hóa đơn",
             "data": result
         })
     } else {
