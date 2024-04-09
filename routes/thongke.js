@@ -9,6 +9,9 @@ router.get('/', (req, res) => {
 });
 
 router.get('/doanhthu-thongso', async (req, res) => {
+
+    const year = req.query.year || new Date().getFullYear();
+
     const hoadons = await HoadonModel.find();
     const hondonoks = await HoadonModel.find({ trangThai: 1 });
     const hondonfails = await HoadonModel.find({ trangThai: -1 });
@@ -20,6 +23,7 @@ router.get('/doanhthu-thongso', async (req, res) => {
     }
 
     let Tongtien = 0;
+    let TongtienYear = 0;
     let TongSoKhachHang = 0;
     let TongHoaDon = hoadons.length;
     let TongHoaDonOK = hondonoks.length;
@@ -41,6 +45,12 @@ router.get('/doanhthu-thongso', async (req, res) => {
     // Thống kê theo tháng
     const hoadonsByMonth = await HoadonModel.aggregate([
         {
+            $match: {
+                trangThai: 1,  // Chỉ lấy các hóa đơn có trạng thái là 1
+                createdAt: { $gte: new Date(year, 0, 1), $lt: new Date(year+1, 0, 1) } // Lấy các hóa đơn trong năm nhập vào
+            }
+        },
+        {
             $group: {
                 _id: {
                     year: { $year: "$createdAt" }, // Nhóm theo năm của ngày mua
@@ -50,6 +60,9 @@ router.get('/doanhthu-thongso', async (req, res) => {
                 TongSoKhachHang: { $addToSet: "$id_KhachHang" }, // Sử dụng $addToSet để đếm số lượng khách hàng duy nhất
                 TongHoaDon: { $sum: 1 } // Đếm tổng số hóa đơn
             }
+        },
+        {
+            $sort: { "_id.month": 1 } // Sắp xếp theo tháng tăng dần
         }
     ]);
 
@@ -63,7 +76,7 @@ router.get('/doanhthu-thongso', async (req, res) => {
             TongHoaDonOK: TongHoaDonOK,
             TongHoaDonFail: TongHoaDonFail,
             TongHoaDonLoad: TongHoaDonLoad,
-            ThongKeByMonth : hoadonsByMonth
+            ThongKeByMonth: hoadonsByMonth
         }
     });
 });
