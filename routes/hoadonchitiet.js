@@ -68,7 +68,7 @@ router.post('/post', async (req, res) => {
 // delete hdct
 router.delete('/delete/:id', async (req, res) => {
     const { id } = req.params;
-    const result = await HoadonChitietModel.deleteOne({ id_DichVu: id });
+    const result = await HoadonChitietModel.findByIdAndDelete({ _id: id });
     if (result) {
         res.json({
             "status": "200",

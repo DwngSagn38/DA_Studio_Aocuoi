@@ -37,7 +37,7 @@ router.post('/post', async (req, res) => {
         moTa: data.moTa,
         giaTien: data.giaTien,
         hinhAnh: data.hinhAnh,
-        type: data.type,
+        type: data.type
     })
 
     const result = await dichvu.save();
